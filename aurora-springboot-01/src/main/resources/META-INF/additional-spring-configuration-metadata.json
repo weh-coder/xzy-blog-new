@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "upload.mode",
+      "type": "java.lang.String",
+      "description": "Description for upload.mode."
+  }
+] }

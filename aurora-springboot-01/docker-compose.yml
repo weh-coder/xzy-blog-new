@@ -1,0 +1,84 @@
+services:
+  microService:
+    image: aurora:1.0
+    container_name: aurora01  # 容器名称，如果不指定，会生成一个服务名加上前缀的容器名
+    ports:
+      - "9990:9990"
+    volumes:
+      - /weh/microService:/data
+    networks:
+      - weh_network
+    depends_on:  # 配置该容器服务所依赖的容器服务
+      - redis
+      - rabbitmq
+      - elasticsearch
+      - mysql
+    environment:
+      MYSQL_URL: 2.tcp.cpolar.top:14545
+      SPRING_HOST_IP: 172.17.60.203
+      WEBSITE_URL: https://www.itweh.cn/#/
+      #SPRING_DATASOURCE_URL: 172.17.60.203
+      #SPRING_RABBITMQ_HOST: 172.17.60.203
+      #SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES: 172.17.60.203:9200
+      #SPRING_REDIS_HOST: 172.17.60.203
+
+  redis:
+    image: redis:6.0.5
+    ports:
+      - "6379:6379"
+    volumes:
+      - /weh/redis/redis.conf:/etc/redis/redis.conf
+      - /weh/redis/data:/data
+    networks:
+      - weh_network
+    command: redis-server /etc/redis/redis.conf --requirepass 123456
+
+  rabbitmq:
+    image: rabbitmq:management
+    environment:
+      RABBITMQ_DEFAULT_USER: "weh"
+      RABBITMQ_DEFALUT_PASS: "123456"
+    ports:
+      - "5672:5672"     # AMQP 协议端口
+      - "15672:15672"   # 管理界面端口
+    volumes:
+      - /weh/rabbitmq/data:/var/lib/rabbitmq  # 持久化RabbitMQ数据
+    networks:
+      - weh_network
+
+  elasticsearch:
+    image: elasticsearch:7.9.2
+    environment:
+      discovery.type: "single-node"
+      ELASTIC_PASSWORD: "123456"
+      ES_JAVA_OPTS: "-Xms64m -Xmx128m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - /weh/elasticsearch/config/elasticsearch.yml:/usr/shellare/elasticsearch/config/elasticsearch.yml
+      - /weh/elasticsearch/data:/usr/shellare/elasticsearch/data
+      - /weh/elasticsearch/plugins:/usr/shellare/elasticsearch/plugins
+    networks:
+      - weh_network
+  mysql:
+    image: mysql:5.7.27
+    environment:
+      MYSQL_ROOT_PASSWORD: 'weh123456'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+      MYSQL_DATABASE: 'aurora'
+      MYSQL_USER: 'springboot'
+      MYSQL_PASSWORD: 'springboot'
+    ports:
+      - "3306:3306"
+    volumes:
+      - /weh/mysql/log:/var/log/mysql
+      - /weh/mysql/data:/var/lib/mysql
+      - /weh/mysql/conf:/etc/mysql/conf.d
+    networks:
+      - weh_network
+    command: --default-authentication-plugin=mysql_native_password # 解决外部无法访问
+
+networks:
+  # 创建 weh_network 网桥网络
+  weh_network:

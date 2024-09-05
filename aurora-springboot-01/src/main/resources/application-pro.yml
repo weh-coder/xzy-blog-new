@@ -1,0 +1,104 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.174.137:3306/xzy-blog?serverTimezone=Asia/Shanghai&characterEncoding=UTF-8&allowMultiQueries=true
+    username: root
+    password: 123456
+    hikari:
+      minimum-idle: 10
+      idle-timeout: 180000
+      maximum-pool-size: 100
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 60000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  #data: redis版本3以下的要加data，4以上的不加
+  redis:
+    host: ${SPRING_HOST_IP}
+    port: 6379
+    password: weh@redis@6379
+    database: 0
+    lettuce:
+      pool:
+        min-idle: 10
+        max-idle: 100
+        max-active: 100
+        max-wait: 10000
+
+  #访问地址http://127.0.0.1:15672
+  rabbitmq:
+    host: ${SPRING_HOST_IP}
+    port: 5672
+    username: weh@rabbitmq
+    password: weh@rabbitmq@5672
+    listener:
+      simple:
+        retry:
+          enabled: true
+          max-attempts: 3
+          initial-interval: 3000
+
+  elasticsearch:
+    rest:
+      uris: ${SPRING_HOST_IP}:9200
+      username: elastic
+      password: weh@es9200
+
+  mail:
+    host: smtp.qq.com
+    username: #你的邮箱地址
+    password: #授权码
+    default-encoding: UTF-8
+    protocol: smtp
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            port: 465
+          ssl:
+            enable: true
+          starttls:
+            enable: true
+            required: true
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+jwt:
+  secret: aurora
+
+search:
+  mode: mysql
+
+upload:
+  mode: oss
+
+    oss:
+    url: #oss地址url
+    endpoint: #oss存储文件路径
+    accessKeyId: #accessKeyId
+    accessKeySecret: #密钥
+    bucketName: #bucket文件
+
+  minio:
+    url: http://127.0.0.1:9000/aurora-blog/
+    endpoint: http://127.0.0.1:9000
+    accesskey: #accesskey
+    secretKey: #secretKey
+    bucketName: #bucket
+
+website:
+  url: https://域名/#/

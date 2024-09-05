@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>学之余博客</title>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <style>
+        img {
+            height: 100px;
+            width: 160px;
+            display: block;
+            margin: 0 auto;
+        }
+        .btns {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            border-radius: 100px;
+            background: #94939342;
+            font-size: 17px;
+            line-height: 52px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btns a {
+            width: 80px;
+            text-decoration: none;
+            text-align: center;
+            color: rgba(240, 163, 9, 0.715);
+        }
+    </style>
+</head>
+<body>
+<img src="https://blog-aurora-weh.oss-cn-shenzhen.aliyuncs.com/aurora/config/f0fb604e91643bccc5a3a610ec724c80.png"/>
+<div style="
+    border-radius: 10px 10px 10px 10px;
+    font-size: 13px;
+    width: 666px;
+    margin: 50px auto;
+    border: 1px solid #eee;
+    max-width: 100%;
+    box-shadow: 0 1px 5px rgb(0 0 0 / 15%);">
+    <div style="
+    border-radius: 10px 10px 0 0;
+    height: 66px;">
+        <p style="font-size:15px;
+        word-break:break-all;
+        padding: 23px 32px;
+        margin:0;
+        border-radius: 10px 10px 0 0;">
+            您在<a style="text-decoration:none;
+            color:#12addb;" href="https://www.linhaojun.top/" target="_blank">学之余博客</a>上的留言有新回复啦！
+        </p>
+    </div>
+    <div style="margin:20px auto;width:90%">
+        <p>时间：<span th:text="${time}"></span></p>
+        <p><strong th:text="${toUser}"></strong> 用户，您曾在<a th:text="|《${title}》|" style="text-decoration: none;
+        color:#12addb"></a>上发表评论：</p>
+        <div style="border: 1px solid gray;
+        margin:20px 0;
+        padding:15px;
+        border-radius:5px;
+        font-size:14px;">
+            <p th:utext="${parentComment}"></p>
+        </div>
+        <p><strong th:text="${fromUser}"></strong> 给您的回复如下：</p>
+        <div style="border: 1px solid gray;
+        margin:20px 0;
+        padding:15px;
+        border-radius:5px;
+        font-size:14px;">
+            <p th:utext="${replyComment}"></p>
+        </div>
+        <p>
+            您可以点击<a style="text-decoration:none;
+            color:#12addb" target="_blank" th:href="@{${url}}">查看回复的完整內容</a>
+            ，欢迎再次光临<a style="text-decoration:none;
+            color:#12addb" href="https://www.linhaojun.top/" target="_blank">学之余的个人博客</a>。
+        </p>
+        <div style="color: #8c8c8c; font-size: 10px;width: 100%;text-align: center;word-wrap: break-word;">
+            <p style="padding: 20px;font-size: 12px;">青春一经典当即永不再赎。—— 魏书生</p>
+        </div>
+        <div class="btns">
+            <a href="https://blog.csdn.net/IT_WEH_coder" target="_blank">联系我们</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
